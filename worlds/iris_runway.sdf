@@ -120,5 +120,25 @@
       <pose degrees="true">0 0 0.195 0 0 90</pose>
     </include>
 
+    <include>
+      <uri>model://iris_drone_2</uri>
+      <pose degrees="true">2 0 0.195 0 0 90</pose>
+    </include>
+
+    <include>
+      <uri>model://iris_drone_3</uri>
+      <pose degrees="true">4 0 0.195 0 0 90</pose>
+    </include>
+
+    <include>
+      <uri>model://iris_drone_4</uri>
+      <pose degrees="true">6 0 0.195 0 0 90</pose>
+    </include>
+
+    <include>
+      <uri>model://iris_drone_5</uri>
+      <pose degrees="true">8 0 0.195 0 0 90</pose>
+    </include>
+
   </world>
 </sdf>
