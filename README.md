@@ -1,22 +1,14 @@
 # ArduPilot Gazebo Plugin
 
-[![ubuntu-build](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ubuntu-build.yml/badge.svg)](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ubuntu-build.yml)
-[![ccplint](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ccplint.yml/badge.svg)](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ccplint.yml)
-[![cppcheck](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ccpcheck.yml/badge.svg)](https://github.com/ArduPilot/ardupilot_gazebo/actions/workflows/ccpcheck.yml)
-
-This is the official ArduPilot plugin for [Gazebo](https://gazebosim.org/home).
-It replaces the previous
-[`ardupilot_gazebo`](https://github.com/khancyr/ardupilot_gazebo)
-plugin and provides support for the recent releases of the Gazebo simulator
+This is the not the official ArduPilot plugin for [Gazebo](https://gazebosim.org/home).
+The plugin and provides support for the recent releases of the Gazebo simulator
 [(Gazebo Garden)](https://gazebosim.org/docs/garden/install) and [(Gazebo Harmonic)](https://gazebosim.org/docs/harmonic/install).
 
-It also adds the following features:
+It adds the following features:
 
-- More flexible data exchange between SITL and Gazebo using JSON.
-- Additional sensors supported.
-- True simulation lockstepping. It is now possible to use GDB to stop
-  the Gazebo time for debugging.
-- Improved 3D rendering using the `ogre2` rendering engine.
+- TODO: Spawns 5 Iris Copter to easily run Swarming code on Gazebo
+- TODO: Also Added Camera gimbal in the swarmed drones
+- TODO: Spawns 5 Zephyr to easily run Swarming code on Gazebo
 
 The project comprises a Gazebo plugin to connect to ArduPilot SITL
 (Software In The Loop) and some example models and worlds.
@@ -64,21 +56,6 @@ sudo apt install libgz-sim8-dev rapidjson-dev
 sudo apt install libopencv-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl
 ```
 
-#### Rosdep
-
-Use rosdep with
-[osrf's rosdep rules](https://github.com/osrf/osrf-rosdep?tab=readme-ov-file#1-use-rosdep-to-resolve-gazebo-libraries)
-to manage all dependencies. This is driven off of the environment variable `GZ_VERSION`.
-
-```bash
-export GZ_VERSION=harmonic # or garden
-sudo bash -c 'wget https://raw.githubusercontent.com/osrf/osrf-rosdep/master/gz/00-gazebo.list -O /etc/ros/rosdep/sources.list.d/00-gazebo.list'
-rosdep update
-rosdep resolve gz-harmonic # or gz-garden
-# Navigate to your ROS workspace before the next command.
-rosdep install --from-paths src --ignore-src -y
-```
-
 ### macOS
 
 ```bash
@@ -93,8 +70,10 @@ Ensure the `GZ_VERSION` environment variable is set to either
 Clone the repo and build:
 
 ```bash
-git clone https://github.com/ArduPilot/ardupilot_gazebo
-cd ardupilot_gazebo
+mkdir -p gz_ws/src && cd gz_ws/src
+git clone https://github.com/ArduPilot/swarm_gazebo
+export GZ_VERSION=harmonic
+cd swarm_gazebo
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j4
@@ -107,20 +86,20 @@ the terminal used to run Gazebo.
 
 #### Terminal
 
-Assuming that you have cloned the repository to `$HOME/ardupilot_gazebo`:
+Assuming that you have cloned the repository to `$HOME/gz_ws/src/swarm_gazebo`:
 
 ```bash
-export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
-export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
+export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/gz_ws/src/swarm_gazebo/build:$GZ_SIM_SYSTEM_PLUGIN_PATH
+export GZ_SIM_RESOURCE_PATH=$HOME/gz_ws/src/swarm_gazebo/models:$HOME/gz_ws/src/swarm_gazebo/worlds:$GZ_SIM_RESOURCE_PATH
 ```
 
 #### .bashrc or .zshrc
 
-Assuming that you have cloned the repository to `$HOME/ardupilot_gazebo`:
+Assuming that you have cloned the repository to `$HOME/gz_ws/src/swarm_gazebo`:
 
 ```bash
-echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/ardupilot_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc
-echo 'export GZ_SIM_RESOURCE_PATH=$HOME/ardupilot_gazebo/models:$HOME/ardupilot_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> ~/.bashrc
+echo 'export GZ_SIM_SYSTEM_PLUGIN_PATH=$HOME/gz_ws/src/swarm_gazebo/build:${GZ_SIM_SYSTEM_PLUGIN_PATH}' >> ~/.bashrc
+echo 'export GZ_SIM_RESOURCE_PATH=$HOME/gz_ws/src/swarm_gazebo/models:$HOME/gz_ws/src/swarm_gazebo/worlds:${GZ_SIM_RESOURCE_PATH}' >> ~/.bashrc
 ```
 
 Reload your terminal with `source ~/.bashrc` (or `source ~/.zshrc` on macOS).
@@ -254,7 +233,7 @@ gz sim -v4 -r iris_runway.sdf
 ```bash
 cd ardupilot
 
-sim_vehicle.py -D -v ArduCopter -f JSON --add-param-file=$HOME/ardupilot_gazebo/config/gazebo-iris-gimbal.parm --console --map
+sim_vehicle.py -D -v ArduCopter -f JSON --add-param-file=$HOME/swarm_gazebo/config/gazebo-iris-gimbal.parm --console --map
 ```
 
 Control action for gimbal over RC channel:

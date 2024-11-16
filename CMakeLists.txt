@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
-project(ardupilot_gazebo)
+project(swarm_gazebo)
 
 # --------------------------------------------------------------------------- #
 # If ament_cmake is found build as an ament package, otherwise ignore.
