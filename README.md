@@ -77,6 +77,7 @@ cd swarm_gazebo
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j4
+chmod +x run_sim_vehicle.sh
 ```
 
 ## Configure
@@ -119,12 +120,10 @@ useful for troubleshooting.
 
 #### Run ArduPilot SITL
 
-To run an ArduPilot simulation with Gazebo, the frame should have `gazebo-`
-in it and have `JSON` as model. Other commandline parameters are the same
-as usual on SITL.
+Script to run Ardupilot SITL with 5 instance
 
 ```bash
-sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --map --console
+./run_sim_vehicle.sh
 ```
 
 #### Arm and takeoff
